@@ -19,4 +19,5 @@ public class ConstValue {
     public static final String FORMAT_EMAIL = "^[a-zA-Z][\\w-]+@([\\w]+\\.[\\w]+|[\\w]+\\.[\\w]{2,}\\.[\\w]{2,})+$";
     public static final int MAX_PRODUCT_IN_PAGE = 6;
     public static final String[] LIST_STATUS = {STATUS_ALL, STATUS_NEW, STATUS_SHIPPING, STATUS_COMPLETED, STATUS_REJECTED};
+    public static final int MAX_ORDER_IN_PAGE = 20;
 }

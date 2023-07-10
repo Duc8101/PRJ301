@@ -57,6 +57,11 @@
                             <li class="dropdown ">
                                 <a href="Home">HOME</a>
                             </li><!-- / Home -->
+                            <%
+                                if (user != null) {
+                            %>
+                            <a href="ViewSeller">Seller</a>
+                            <%}%>
                             <%} else {%>
                             <li><a href="ManagerProduct">Product</a></li>
                             <li><a href="ManagerOrder">Order</a></li>

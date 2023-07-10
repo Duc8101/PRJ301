@@ -1,5 +1,8 @@
 package Controller;
 
+import Const.ConstValue;
+import Entity.Order;
+import Entity.OrderDetail;
 import Entity.Product;
 import Entity.User;
 import Model.DAOOrder;
@@ -45,7 +48,7 @@ public class CartServlet extends HttpServlet {
             if (service.equals("ShowCart")) {
                 Map<Product, Integer> map = getListCart(session);
                 request.setAttribute("map", map);
-                Dispatcher.forward(request, response, "ShowCart.jsp");
+                Dispatcher.forward(request, response, "/View/Cart/Index.jsp");
             }
 
             if (service.equals("RemoveCart")) {
@@ -54,10 +57,10 @@ public class CartServlet extends HttpServlet {
                 response.sendRedirect("Cart");
             }
 
-            if (service.equals("CheckOut")) {
+            if (service.equals("Checkout")) {
                 Map<Product, Integer> map = getListCart(session);
                 request.setAttribute("map", map);
-                Dispatcher.forward(request, response, "CheckOut.jsp");
+                Dispatcher.forward(request, response, "/View/Cart/Checkout.jsp");
             }
         }
     }
@@ -91,7 +94,32 @@ public class CartServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession session = request.getSession();
+        String address = request.getParameter("address").trim();
+        User user = (User) session.getAttribute("user");
+        Map<Product, Integer> map = getListCart(session);
+        request.setAttribute("map", map);
+        if (address.isEmpty()) {
+            request.setAttribute("message", "You have to input address");
+        }else {
+            Order order = new Order(user.getID(), null, null, address);
+            daoOrder.AddOrder(order);
+            List<Order> list = daoOrder.getListOrder(null, 0);
+            int OrderID = list.get(list.size() - 1).getOrderID();
+            int number = 0;
+            Set<Product> set = map.keySet();
+            for (Product key : set) {
+                int quantity = map.get(key);
+                OrderDetail detail = new OrderDetail(OrderID, key.getProductID(), quantity);
+                number = daoDetail.AddOrderDetail(detail);
+            }
+            // if add successful
+            if (number > 0) {
+                request.setAttribute("address", address);
+                request.setAttribute("mess", "Check out successful");
+            }
+        }
+        Dispatcher.forward(request, response, "/View/Cart/Checkout.jsp");
     }
 
     @Override
