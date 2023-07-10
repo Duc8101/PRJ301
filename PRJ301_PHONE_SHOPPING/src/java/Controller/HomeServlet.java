@@ -73,7 +73,7 @@ public class HomeServlet extends HttpServlet {
             request.setAttribute("next", nextURL);
             request.setAttribute("first", firstURL);
             request.setAttribute("last", lastURL);
-            Dispatcher.forward(request, response, "/WEB-INF/Home/Index.jsp");
+            Dispatcher.forward(request, response, "/View/Home/Index.jsp");
         } else {
             response.sendRedirect("ManagerProduct");
         }

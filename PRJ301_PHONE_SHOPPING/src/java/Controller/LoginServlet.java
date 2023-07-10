@@ -21,12 +21,12 @@ public class LoginServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String username = getUsername(request);
         if (username == null) {
-            Dispatcher.forward(request, response, "/WEB-INF/Login/Index.jsp");
+            Dispatcher.forward(request, response, "/View/Login/Index.jsp");
         } else {
             User user = daoUser.getUser(username);
             // if user not exist
             if (user == null) {
-                Dispatcher.forward(request, response, "/WEB-INF/Login/Index.jsp");
+                Dispatcher.forward(request, response, "/View/Login/Index.jsp");
             } else {
                 session.setAttribute("user", user);
                 if (user.getRoleName().equals(ConstValue.ROLE_CUSTOMER)) {
@@ -70,7 +70,7 @@ public class LoginServlet extends HttpServlet {
         User user = daoUser.getUser(username);
         if (user == null || !password.equals(user.getPassword())) {
             request.setAttribute("message", "Username or password incorrect");
-            Dispatcher.forward(request, response, "/WEB-INF/Login/Index.jsp");
+            Dispatcher.forward(request, response, "/View/Login/Index.jsp");
         } else {
             if (remember != null) {
                 Cookie cookie = new Cookie("username", username);

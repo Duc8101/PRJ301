@@ -68,4 +68,11 @@ public class DAOProduct extends ConnectDatabase {
         List<Product> list = this.getList(sql);
         return list;
     }
+
+    public Product getProduct(String ProductID) {
+        String sql = "SELECT * FROM [dbo].[Product]\n"
+                + "WHERE [ProductID] = " + ProductID;
+        List<Product> list = this.getList(sql);
+        return list.isEmpty() ? null : list.get(0);
+    }
 }

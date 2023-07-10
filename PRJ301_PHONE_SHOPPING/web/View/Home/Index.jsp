@@ -2,7 +2,7 @@
 <%@page import="Entity.Category"%>
 <%@page import="java.util.List"%>
 <%@page import="Model.DAOCategory"%>
-<jsp:include page="/WEB-INF/Shared/header.jsp"></jsp:include>
+<jsp:include page="/View/Shared/header.jsp"></jsp:include>
 <%  DAOCategory daoCategory = new DAOCategory();
     List<Category> listCategory = daoCategory.getAllCategory();
     int CategoryID = (Integer) request.getAttribute("CategoryID");
@@ -78,5 +78,5 @@
         <%}%>
     </div>
 </section>
-<jsp:include page="/WEB-INF/Shared/footer.jsp"></jsp:include>
+<jsp:include page="/View/Shared/footer.jsp"></jsp:include>
 

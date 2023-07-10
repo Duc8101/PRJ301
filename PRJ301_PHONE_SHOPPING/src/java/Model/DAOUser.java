@@ -1,6 +1,7 @@
 package Model;
 
 import Entity.User;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -34,5 +35,31 @@ public class DAOUser extends ConnectDatabase {
                 + "WHERE [username] = '" + username + "'";
         User user = this.getObject(sql);
         return user;
+    }
+
+    public int AddUser(User user) {
+        String sql = "INSERT INTO [dbo].[User]\n"
+                + "           ([FullName]\n"
+                + "           ,[phone]\n"
+                + "           ,[email]\n"
+                + "           ,[gender]\n"
+                + "           ,[username]\n"
+                + "           ,[password]\n"
+                + "           ,[RoleName])\n"
+                + "           VALUES(?,?,?,?,?,?,?)";
+        try {
+            PreparedStatement prepare = connect.prepareStatement(sql);
+            prepare.setString(1, user.getFullName());
+            prepare.setString(2, user.getPhone());
+            prepare.setString(3, user.getEmail());
+            prepare.setString(4, user.getGender());
+            prepare.setString(5, user.getUsername());
+            prepare.setString(6, user.getPassword());
+            prepare.setString(7, user.getRoleName());
+            return prepare.executeUpdate();
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+        return 0;
     }
 }
