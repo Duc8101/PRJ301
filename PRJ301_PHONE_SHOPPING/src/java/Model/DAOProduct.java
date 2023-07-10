@@ -2,7 +2,6 @@ package Model;
 
 import Const.ConstValue;
 import Entity.Product;
-import Entity.User;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
@@ -30,22 +29,12 @@ public class DAOProduct extends ConnectDatabase {
     }
 
     public int getNumberPage(int CategoryID) {
-        String sql = "select count(ProductID) from Product";
-        if (CategoryID == 0) {
-            sql = sql + "";
-        } else {
+        String sql = "select * from Product";
+        if (CategoryID != 0) {
             sql = sql + " where CategoryID = " + CategoryID;
         }
-        ResultSet result = getData(sql);
-        double number = 0;
-        try {
-            // if get data successful
-            if (result.next()) {
-                number = result.getInt(1);
-            }
-        } catch (SQLException ex) {
-            System.err.println(ex.getMessage());
-        }
+        List<Product> list = this.getList(sql);
+        double number = list.size();
         if (number <= ConstValue.MAX_PRODUCT_IN_PAGE) {
             number = 1;
         } else if ((number / ConstValue.MAX_PRODUCT_IN_PAGE) > (Math.round(number / ConstValue.MAX_PRODUCT_IN_PAGE))) {
@@ -61,32 +50,21 @@ public class DAOProduct extends ConnectDatabase {
         String sql = "select * from Product\n";
         String line;
         String order;
+        // if not choose category
+        if (CategoryID == 0) {
+            line = role.equals(ConstValue.ROLE_CUSTOMER) ? "     where isSold = 1\n" : "\n";
+            sql = sql + line;
+        } else {
+            line = role.equals(ConstValue.ROLE_CUSTOMER) ? " and isSold = 1\n" : "\n";
+            sql = sql + "     where CategoryID = " + CategoryID + line;
+        }
         // if not sort
         if (properties == null && flow == null) {
             order = "	order by ProductID\n";
-            // if not choose category
-            if (CategoryID == 0) {
-                line = role.equals(ConstValue.ROLE_CUSTOMER) ? "     where isSold = 1\n" : "";
-                sql = sql + line + order;
-            } else {
-                line = role.equals(ConstValue.ROLE_CUSTOMER) ? " and isSold = 1\n" : "\n";
-                sql = sql
-                        + "     where CategoryID = " + CategoryID + line
-                        + order;
-            }
         } else {
             order = "	order by " + properties + " " + flow + "\n";
-            // if not choose category
-            if (CategoryID == 0) {
-                line = role.equals(ConstValue.ROLE_CUSTOMER) ? "     where isSold = 1\n" : "\n";
-                sql = sql + line + order;
-            } else {
-                line = role.equals(ConstValue.ROLE_CUSTOMER) ? " and isSold = 1\n" : "\n";
-                sql = sql + "     where CategoryID = " + CategoryID + line
-                        + order;
-            }
         }
-        sql = sql + "	offset (" + ConstValue.MAX_PRODUCT_IN_PAGE + "*" + (page - 1) + ") row fetch next " + ConstValue.MAX_PRODUCT_IN_PAGE + " row only";
+        sql = sql + order + "	offset (" + ConstValue.MAX_PRODUCT_IN_PAGE + "*" + (page - 1) + ") row fetch next " + ConstValue.MAX_PRODUCT_IN_PAGE + " row only";
         List<Product> list = this.getList(sql);
         return list;
     }
