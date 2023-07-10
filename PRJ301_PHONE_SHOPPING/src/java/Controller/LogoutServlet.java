@@ -17,11 +17,13 @@ public class LogoutServlet extends HttpServlet {
         session.invalidate();
         // get all cookie
         Cookie[] cookies = request.getCookies();
-        for (Cookie cook : cookies) {
-            // if cookie name equal to username
-            if (cook.getName().equals("username")) {
-                cook.setMaxAge(0);
-                response.addCookie(cook);
+        if (cookies != null) {
+            for (Cookie cook : cookies) {
+                // if cookie name equal to username
+                if (cook.getName().equals("username")) {
+                    cook.setMaxAge(0);
+                    response.addCookie(cook);
+                }
             }
         }
         response.sendRedirect("Home");

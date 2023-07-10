@@ -1,4 +1,4 @@
-<jsp:include page="/Shared/header.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/Shared/header.jsp"></jsp:include>
     <section class="signin-page account">
         <div class="container">
             <div class="row">
@@ -31,4 +31,4 @@
         </div>
     </div>
 </section>
-<jsp:include page="/Shared/footer.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/Shared/footer.jsp"></jsp:include>
