@@ -58,4 +58,33 @@ public class DAOOrder extends ConnectDatabase {
         List<Order> list = this.getList(sql);
         return list;
     }
+
+    public List<Order> getListOrder(int page, int UserID) {
+        String sql = "SELECT * FROM [dbo].[Order]\n"
+                + "WHERE [UserID] = " + UserID + "\n"
+                + "	order by OrderID\n"
+                + "	offset (" + ConstValue.MAX_ORDER_IN_PAGE + "*" + (page - 1) + ") row fetch next " + ConstValue.MAX_ORDER_IN_PAGE + " row only";
+        List<Order> list = this.getList(sql);
+        return list;
+    }
+
+    public int getNumberPage(int UserID) {
+        String sql = "select * from [dbo].[Order] where [UserID] = " + UserID;
+        List<Order> list = this.getList(sql);
+        double number = list.size();
+        if (number <= ConstValue.MAX_ORDER_IN_PAGE) {
+            number = 1;
+        } else if ((number / ConstValue.MAX_ORDER_IN_PAGE) > (Math.round(number / ConstValue.MAX_ORDER_IN_PAGE))) {
+            number = Math.floor(number / ConstValue.MAX_ORDER_IN_PAGE) + 1;
+        } else {
+            number = Math.round(number / ConstValue.MAX_ORDER_IN_PAGE);
+        }
+        return (int) number;
+    }
+    
+    public Order getOrder(int OrderID){
+        String sql = "select * from [dbo].[Order] where [OrderID] = " + OrderID;
+        List<Order> list = this.getList(sql);
+        return list.isEmpty() ? null : list.get(0);
+    }
 }

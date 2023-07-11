@@ -62,4 +62,40 @@ public class DAOUser extends ConnectDatabase {
         }
         return 0;
     }
+
+    public int UpdateProfile(User user) {
+        String sql = "UPDATE [dbo].[User]\n"
+                + "   SET [FullName] = ?\n"
+                + "      ,[phone] = ?\n"
+                + "      ,[email] = ?\n"
+                + "      ,[gender] = ?\n"
+                + " WHERE [username] = ?";
+        try {
+            PreparedStatement prepare = connect.prepareStatement(sql);
+            prepare.setString(1, user.getFullName());
+            prepare.setString(2, user.getPhone());
+            prepare.setString(3, user.getEmail());
+            prepare.setString(4, user.getGender());
+            prepare.setString(5, user.getUsername());
+            return prepare.executeUpdate();
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+        return 0;
+    }
+
+    public int UpdatePassword(String username, String password) {
+        String sql = "UPDATE [dbo].[User]\n"
+                + "   SET [password] = ?\n"
+                + " WHERE [username] = ?";
+        try {
+            PreparedStatement prepare = connect.prepareStatement(sql);
+            prepare.setString(1, password);
+            prepare.setString(2, username);
+            return prepare.executeUpdate();
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+        return 0;
+    }
 }

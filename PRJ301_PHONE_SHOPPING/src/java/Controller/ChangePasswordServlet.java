@@ -10,12 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class ProfileServlet extends HttpServlet {
+public class ChangePasswordServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        Dispatcher.forward(request, response, "/View/Profile/Index.jsp");
+        Dispatcher.forward(request, response, "/View/ChangePassword/Index.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -31,25 +31,25 @@ public class ProfileServlet extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         DAOUser dao = new DAOUser();
-        String FullName = request.getParameter("FullName").trim();
-        String gender = request.getParameter("gender");
-        String phone = request.getParameter("phone");
-        String email = request.getParameter("email").trim();
-        String address = request.getParameter("address");
-        if (!phone.matches(ConstValue.FORMAT_PHONE)) {
-            request.setAttribute("message", "Phone only number and length is " + ConstValue.LENGTH_PHONE);
-        } else if (address != null && address.trim().isEmpty()) {
-            request.setAttribute("message", "You have to input your address");
+        String OldPassword = request.getParameter("old");
+        String NewPassword = request.getParameter("new");
+        String ComfirmPassword = request.getParameter("confirm");
+        if (!user.getPassword().equals(OldPassword)) {
+            request.setAttribute("message", "Your old password not correct");
+        } else if (!NewPassword.equals(ComfirmPassword)) {
+            request.setAttribute("message", "Your confirm password not the same new password");
+        } else if (NewPassword.length() > ConstValue.MAX_LENGTH_PASSWORD) {
+            request.setAttribute("message", "Password max " + ConstValue.MAX_LENGTH_PASSWORD + " characters");
         } else {
-            user = new User(FullName, phone, email.isEmpty() ? null : email, gender, address == null ? null : address.trim(), user.getUsername(), user.getPassword(), user.getRoleName());
-            int number = dao.UpdateProfile(user);
-            // if update successful
+            int number = dao.UpdatePassword(user.getUsername(), NewPassword);
+            //if update successful
             if (number > 0) {
+                user.setPassword(NewPassword);
                 session.setAttribute("user", user);
-                request.setAttribute("mess", "Update successful");
+                request.setAttribute("mess", "Change successful");
             }
         }
-        Dispatcher.forward(request, response, "/View/Profile/Index.jsp");
+        Dispatcher.forward(request, response, "/View/ChangePassword/Index.jsp");
     }
 
     @Override

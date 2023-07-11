@@ -60,7 +60,9 @@
                             <%
                                 if (user != null) {
                             %>
-                            <a href="ViewSeller">Seller</a>
+                            <li>
+                                <a href="ViewSeller">Seller</a>
+                            </li>
                             <%}%>
                             <%} else {%>
                             <li><a href="ManagerProduct">Product</a></li>

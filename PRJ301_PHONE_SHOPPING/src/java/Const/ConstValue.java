@@ -20,4 +20,5 @@ public class ConstValue {
     public static final int MAX_PRODUCT_IN_PAGE = 6;
     public static final String[] LIST_STATUS = {STATUS_ALL, STATUS_NEW, STATUS_SHIPPING, STATUS_COMPLETED, STATUS_REJECTED};
     public static final int MAX_ORDER_IN_PAGE = 20;
+    public static final String USERNAME_SELLER = ROLE_SELLER;
 }

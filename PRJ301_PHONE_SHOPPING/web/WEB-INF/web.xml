@@ -24,6 +24,18 @@
         <servlet-name>ProfileServlet</servlet-name>
         <servlet-class>Controller.ProfileServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MyOrderServlet</servlet-name>
+        <servlet-class>Controller.MyOrderServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewSellerServlet</servlet-name>
+        <servlet-class>Controller.ViewSellerServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ChangePasswordServlet</servlet-name>
+        <servlet-class>Controller.ChangePasswordServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/Home</url-pattern>
@@ -47,6 +59,18 @@
     <servlet-mapping>
         <servlet-name>ProfileServlet</servlet-name>
         <url-pattern>/Profile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MyOrderServlet</servlet-name>
+        <url-pattern>/MyOrder</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewSellerServlet</servlet-name>
+        <url-pattern>/ViewSeller</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangePasswordServlet</servlet-name>
+        <url-pattern>/ChangePassword</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
