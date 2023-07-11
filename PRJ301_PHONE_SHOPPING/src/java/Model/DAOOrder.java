@@ -81,10 +81,44 @@ public class DAOOrder extends ConnectDatabase {
         }
         return (int) number;
     }
-    
-    public Order getOrder(int OrderID){
+
+    public Order getOrder(int OrderID) {
         String sql = "select * from [dbo].[Order] where [OrderID] = " + OrderID;
         List<Order> list = this.getList(sql);
         return list.isEmpty() ? null : list.get(0);
+    }
+
+    public int getNumberPage(String status) {
+        String sql = "select * from [dbo].[Order]";
+        if (status != null && !status.equals(ConstValue.STATUS_ALL)) {
+            sql = sql + "WHERE [status] = '" + status + "'" + "\n";
+        }
+        List<Order> list = this.getList(sql);
+        double number = list.size();
+        if (number <= ConstValue.MAX_ORDER_IN_PAGE) {
+            number = 1;
+        } else if ((number / ConstValue.MAX_ORDER_IN_PAGE) > (Math.round(number / ConstValue.MAX_ORDER_IN_PAGE))) {
+            number = Math.floor(number / ConstValue.MAX_ORDER_IN_PAGE) + 1;
+        } else {
+            number = Math.round(number / ConstValue.MAX_ORDER_IN_PAGE);
+        }
+        return (int) number;
+    }
+
+    public int UpdateOrder(Order order) {
+        String sql = "UPDATE [dbo].[Order]\n"
+                + "SET [ShipDate] = ?\n"
+                + ",    [status] = ?\n"
+                + "WHERE [OrderID] = ?";
+        try {
+            PreparedStatement prepare = connect.prepareStatement(sql);
+            prepare.setString(1, order.getShipDate());
+            prepare.setString(2, order.getStatus());
+            prepare.setInt(3, order.getOrderID());
+            return prepare.executeUpdate();
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+        return 0;
     }
 }

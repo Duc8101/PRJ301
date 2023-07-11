@@ -1,14 +1,7 @@
 package Controller;
 
-import Const.ConstValue;
-import Entity.Order;
-import Entity.OrderDetail;
-import Entity.Product;
-import Entity.User;
-import Model.DAOOrder;
-import Model.DAOOrderDetail;
-import Model.DAOProduct;
-import Model.DAOUser;
+import Entity.*;
+import Model.*;
 import java.io.IOException;
 import java.util.*;
 import javax.servlet.ServletException;
@@ -21,7 +14,6 @@ public class CartServlet extends HttpServlet {
 
     private final DAOProduct daoProduct = new DAOProduct();
     private final DAOOrder daoOrder = new DAOOrder();
-    private final DAOUser daoUser = new DAOUser();
     private final DAOOrderDetail daoDetail = new DAOOrderDetail();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)

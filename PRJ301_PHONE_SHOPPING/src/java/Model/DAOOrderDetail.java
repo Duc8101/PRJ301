@@ -48,4 +48,11 @@ public class DAOOrderDetail extends ConnectDatabase {
         List<OrderDetail> list = this.getList(sql);
         return list;
     }
+    
+    public boolean isExist(int ProductID){
+        String sql = "SELECT * FROM [dbo].[OrderDetail]\n"
+                + "WHERE [ProductID] = " + ProductID;
+        List<OrderDetail> list = this.getList(sql);
+        return !list.isEmpty();
+    }
 }

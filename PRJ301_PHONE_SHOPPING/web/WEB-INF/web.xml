@@ -1,5 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <filter>
+        <filter-name>AuthenticationCustomerFilter</filter-name>
+        <filter-class>Filter.AuthenticationCustomerFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>AuthenticationCustomerAndSellerFilter</filter-name>
+        <filter-class>Filter.AuthenticationCustomerAndSellerFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>AuthenticationGuestAndCustomerFilter</filter-name>
+        <filter-class>Filter.AuthenticationGuestAndCustomerFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>AuthenticationSellerFilter</filter-name>
+        <filter-class>Filter.AuthenticationSellerFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthenticationSellerFilter</filter-name>
+        <url-pattern>/ManagerOrder</url-pattern>
+        <url-pattern>/ManagerProduct</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AuthenticationGuestAndCustomerFilter</filter-name>
+        <url-pattern>/Cart</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AuthenticationCustomerAndSellerFilter</filter-name>
+        <url-pattern>/Profile</url-pattern>
+        <url-pattern>/ChangePassword</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AuthenticationCustomerFilter</filter-name>
+        <url-pattern>/MyOrder</url-pattern>
+        <url-pattern>/ViewSeller</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>HomeServlet</servlet-name>
         <servlet-class>Controller.HomeServlet</servlet-class>
@@ -36,6 +71,18 @@
         <servlet-name>ChangePasswordServlet</servlet-name>
         <servlet-class>Controller.ChangePasswordServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ManagerProductServlet</servlet-name>
+        <servlet-class>Controller.ManagerProductServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ManagerOrderServlet</servlet-name>
+        <servlet-class>Controller.ManagerOrderServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ErrorServlet</servlet-name>
+        <servlet-class>Controller.ErrorServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/Home</url-pattern>
@@ -71,6 +118,18 @@
     <servlet-mapping>
         <servlet-name>ChangePasswordServlet</servlet-name>
         <url-pattern>/ChangePassword</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManagerProductServlet</servlet-name>
+        <url-pattern>/ManagerProduct</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManagerOrderServlet</servlet-name>
+        <url-pattern>/ManagerOrder</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ErrorServlet</servlet-name>
+        <url-pattern>/Error</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

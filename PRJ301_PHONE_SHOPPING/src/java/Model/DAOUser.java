@@ -98,4 +98,12 @@ public class DAOUser extends ConnectDatabase {
         }
         return 0;
     }
+
+    public User getUser(int UserID) {
+        String sql = "SELECT *\n"
+                + "FROM [dbo].[User]\n"
+                + "WHERE [ID] = " + UserID;
+        User user = this.getObject(sql);
+        return user;
+    }
 }
