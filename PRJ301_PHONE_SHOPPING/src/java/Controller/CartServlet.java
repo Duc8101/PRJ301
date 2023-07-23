@@ -93,7 +93,7 @@ public class CartServlet extends HttpServlet {
         request.setAttribute("map", map);
         if (address.isEmpty()) {
             request.setAttribute("message", "You have to input address");
-        }else {
+        } else {
             Order order = new Order(user.getID(), null, null, address);
             daoOrder.AddOrder(order);
             List<Order> list = daoOrder.getListOrder(null, 0);
