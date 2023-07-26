@@ -46,7 +46,7 @@ public class MyOrderServlet extends HttpServlet {
         }
 
         if (service.equals("Detail")) {
-            String OrderID = request.getParameter("OrderID");
+            String OrderID = request.getParameter("OrderID") == null ? "0" : request.getParameter("OrderID");
             int orderID = Integer.parseInt(OrderID);
             Order order = this.daoOrder.getOrder(orderID);
             // if not find order

@@ -12,13 +12,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 public class ManagerOrderServlet extends HttpServlet {
 
     private final DAOOrder daoOrder = new DAOOrder();
     private final DAOOrderDetail daoDetail = new DAOOrderDetail();
-    private final DAOProduct daoProduct = new DAOProduct();
     private final DAOUser daoUser = new DAOUser();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -60,7 +58,7 @@ public class ManagerOrderServlet extends HttpServlet {
         }
 
         if (service.equals("ViewCustomer")) {
-            String username = request.getParameter("username");
+            String username = request.getParameter("username") == null ? "" : request.getParameter("username");
             User user = daoUser.getUser(username);
             if (user == null) {
                 response.sendRedirect("ManagerOrder");
@@ -71,7 +69,7 @@ public class ManagerOrderServlet extends HttpServlet {
         }
 
         if (service.equals("Detail")) {
-            String OrderID = request.getParameter("OrderID");
+            String OrderID = request.getParameter("OrderID") == null ? "0" : request.getParameter("OrderID");
             int orderID = Integer.parseInt(OrderID);
             Order order = this.daoOrder.getOrder(orderID);
             // if not find order
@@ -85,7 +83,7 @@ public class ManagerOrderServlet extends HttpServlet {
         }
 
         if (service.equals("EditOrder")) {
-            String OrderID = request.getParameter("OrderID");
+            String OrderID = request.getParameter("OrderID") == null ? "0" : request.getParameter("OrderID");
             int orderID = Integer.parseInt(OrderID);
             Order order = daoOrder.getOrder(orderID);
             if (order == null) {

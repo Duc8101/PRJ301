@@ -11,9 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ManagerProductServlet extends HttpServlet {
-    
+
     private final DAOProduct daoProduct = new DAOProduct();
-    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response, String service, String CategoryID)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -49,17 +49,17 @@ public class ManagerProductServlet extends HttpServlet {
             request.setAttribute("first", firstURL);
             request.setAttribute("last", lastURL);
             Dispatcher.forward(request, response, "/View/ManagerProduct/Index.jsp");
-            
+
         }
-        
+
         if (service.equals("AddProduct")) {
             Product product = new Product();
             request.setAttribute("product", product);
             Dispatcher.forward(request, response, "/View/ManagerProduct/Add.jsp");
         }
-        
+
         if (service.equals("EditProduct")) {
-            String ProductID = request.getParameter("ProductID");
+            String ProductID = request.getParameter("ProductID") == null ? "0" : request.getParameter("ProductID");
             Product product = daoProduct.getProduct(ProductID);
             if (product == null) {
                 response.sendRedirect("ManagerProduct");
@@ -68,15 +68,21 @@ public class ManagerProductServlet extends HttpServlet {
                 Dispatcher.forward(request, response, "/View/ManagerProduct/Edit.jsp");
             }
         }
-        
+
         if (service.equals("DeleteProduct")) {
-            String ProductID = request.getParameter("ProductID");
-            int number = daoProduct.DeleteProduct(ProductID);
-            // if delete successful
-            if (number > 0) {
-                request.setAttribute("mess", "Delete successful");
-                processRequest(request, response, "DisplayProduct", null);
+            String ProductID = request.getParameter("ProductID") == null ? "0" : request.getParameter("ProductID");
+            Product product = daoProduct.getProduct(ProductID);
+            if (product == null) {
+                response.sendRedirect("ManagerProduct");
+            } else {
+                int number = daoProduct.DeleteProduct(ProductID);
+                // if delete successful
+                if (number > 0) {
+                    request.setAttribute("mess", "Delete successful");
+                    processRequest(request, response, "DisplayProduct", null);
+                }
             }
+
         }
     }
 
@@ -88,7 +94,7 @@ public class ManagerProductServlet extends HttpServlet {
         String CategoryID = request.getParameter("CategoryID");
         processRequest(request, response, service, CategoryID);
     }
-    
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -146,7 +152,7 @@ public class ManagerProductServlet extends HttpServlet {
             }
         }
     }
-    
+
     @Override
     public String getServletInfo() {
         return "Short description";
