@@ -8,17 +8,17 @@ import java.sql.Statement;
 
 public class ConnectDatabase {
 
-    private final static String DRIVER_CLASS_NAME = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    private final static String USERNAME = "sa";
-    private final static String PASSWORD = "123456";
+    private static final String DRIVER_CLASS_NAME = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+    private static final String USERNAME = "sa";
+    private static final String PASSWORD = "123456";
+    private static final String DATABASE_NAME = "PRJ301_PHONE_SHOPPING";
+    private static final String URL_CONNECTION = "jdbc:sqlserver://localhost:1433;databaseName=" + DATABASE_NAME;
     Connection connect;
 
     public ConnectDatabase() {
         try {
             Class.forName(DRIVER_CLASS_NAME);
-            String database = "PRJ301_PHONE_SHOPPING";
-            String URL = "jdbc:sqlserver://localhost:1433;databaseName=" + database;
-            connect = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            connect = DriverManager.getConnection(URL_CONNECTION, USERNAME, PASSWORD);
         } catch (ClassNotFoundException | SQLException ex) {
             System.err.println(ex.getMessage());
         }
