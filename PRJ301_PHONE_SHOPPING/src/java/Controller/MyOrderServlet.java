@@ -6,12 +6,11 @@ import Model.*;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class MyOrderServlet extends HttpServlet {
+public class MyOrderServlet extends BaseServlet {
 
     private final DAOOrder daoOrder = new DAOOrder();
     private final DAOOrderDetail daoDetail = new DAOOrderDetail();
@@ -42,7 +41,7 @@ public class MyOrderServlet extends HttpServlet {
             request.setAttribute("next", nextURL);
             request.setAttribute("first", firstURL);
             request.setAttribute("last", lastURL);
-            Dispatcher.forward(request, response, "/View/MyOrder/Index.jsp");
+            this.forward(request, response, "/View/MyOrder/Index.jsp");
         }
 
         if (service.equals("Detail")) {
@@ -55,7 +54,7 @@ public class MyOrderServlet extends HttpServlet {
             } else {
                 List<OrderDetail> list = this.daoDetail.getListOrderDetail(orderID);
                 request.setAttribute("list", list);
-                Dispatcher.forward(request, response, "/View/MyOrder/Detail.jsp");
+                this.forward(request, response, "/View/MyOrder/Detail.jsp");
             }
         }
 

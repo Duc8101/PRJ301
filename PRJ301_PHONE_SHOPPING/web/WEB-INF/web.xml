@@ -83,6 +83,10 @@
         <servlet-name>ErrorServlet</servlet-name>
         <servlet-class>Controller.ErrorServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>BaseServlet</servlet-name>
+        <servlet-class>Controller.BaseServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/Home</url-pattern>
@@ -130,6 +134,10 @@
     <servlet-mapping>
         <servlet-name>ErrorServlet</servlet-name>
         <url-pattern>/Error</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BaseServlet</servlet-name>
+        <url-pattern>/BaseServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

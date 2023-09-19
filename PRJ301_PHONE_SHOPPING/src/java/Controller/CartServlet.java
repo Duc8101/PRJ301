@@ -5,12 +5,11 @@ import Model.*;
 import java.io.IOException;
 import java.util.*;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class CartServlet extends HttpServlet {
+public class CartServlet extends BaseServlet {
 
     private final DAOProduct daoProduct = new DAOProduct();
     private final DAOOrder daoOrder = new DAOOrder();
@@ -40,7 +39,7 @@ public class CartServlet extends HttpServlet {
             if (service.equals("ShowCart")) {
                 Map<Product, Integer> map = getListCart(session);
                 request.setAttribute("map", map);
-                Dispatcher.forward(request, response, "/View/Cart/Index.jsp");
+                this.forward(request, response, "/View/Cart/Index.jsp");
             }
 
             if (service.equals("RemoveCart")) {
@@ -52,7 +51,7 @@ public class CartServlet extends HttpServlet {
             if (service.equals("Checkout")) {
                 Map<Product, Integer> map = getListCart(session);
                 request.setAttribute("map", map);
-                Dispatcher.forward(request, response, "/View/Cart/Checkout.jsp");
+                this.forward(request, response, "/View/Cart/Checkout.jsp");
             }
         }
     }
@@ -111,7 +110,7 @@ public class CartServlet extends HttpServlet {
                 request.setAttribute("mess", "Check out successful");
             }
         }
-        Dispatcher.forward(request, response, "/View/Cart/Checkout.jsp");
+        this.forward(request, response, "/View/Cart/Checkout.jsp");
     }
 
     @Override

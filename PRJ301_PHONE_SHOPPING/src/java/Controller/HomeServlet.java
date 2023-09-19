@@ -7,12 +7,11 @@ import Model.DAOProduct;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class HomeServlet extends HttpServlet {
+public class HomeServlet extends BaseServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -73,7 +72,7 @@ public class HomeServlet extends HttpServlet {
             request.setAttribute("next", nextURL);
             request.setAttribute("first", firstURL);
             request.setAttribute("last", lastURL);
-            Dispatcher.forward(request, response, "/View/Home/Index.jsp");
+            this.forward(request, response, "/View/Home/Index.jsp");
         } else {
             response.sendRedirect("ManagerProduct");
         }

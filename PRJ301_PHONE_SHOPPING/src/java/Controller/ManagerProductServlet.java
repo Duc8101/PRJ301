@@ -6,11 +6,10 @@ import Model.DAOProduct;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class ManagerProductServlet extends HttpServlet {
+public class ManagerProductServlet extends BaseServlet {
 
     private final DAOProduct daoProduct = new DAOProduct();
 
@@ -48,14 +47,14 @@ public class ManagerProductServlet extends HttpServlet {
             request.setAttribute("next", nextURL);
             request.setAttribute("first", firstURL);
             request.setAttribute("last", lastURL);
-            Dispatcher.forward(request, response, "/View/ManagerProduct/Index.jsp");
+            this.forward(request, response, "/View/ManagerProduct/Index.jsp");
 
         }
 
         if (service.equals("AddProduct")) {
             Product product = new Product();
             request.setAttribute("product", product);
-            Dispatcher.forward(request, response, "/View/ManagerProduct/Add.jsp");
+            this.forward(request, response, "/View/ManagerProduct/Add.jsp");
         }
 
         if (service.equals("EditProduct")) {
@@ -65,7 +64,7 @@ public class ManagerProductServlet extends HttpServlet {
                 response.sendRedirect("ManagerProduct");
             } else {
                 request.setAttribute("product", product);
-                Dispatcher.forward(request, response, "/View/ManagerProduct/Edit.jsp");
+                this.forward(request, response, "/View/ManagerProduct/Edit.jsp");
             }
         }
 
@@ -110,13 +109,13 @@ public class ManagerProductServlet extends HttpServlet {
             request.setAttribute("product", product);
             if (NewProductName.isEmpty()) {
                 request.setAttribute("message", "You have to input product name");
-                Dispatcher.forward(request, response, "/View/ManagerProduct/Add.jsp");
+                this.forward(request, response, "/View/ManagerProduct/Add.jsp");
             } else if (daoProduct.isExist(product.getProductName())) {
                 request.setAttribute("message", "Product name existed");
-                Dispatcher.forward(request, response, "/View/ManagerProduct/Add.jsp");
+                this.forward(request, response, "/View/ManagerProduct/Add.jsp");
             } else if (price <= 0) {
                 request.setAttribute("message", "Price must be greater than 0");
-                Dispatcher.forward(request, response, "/View/ManagerProduct/Add.jsp");
+                this.forward(request, response, "/View/ManagerProduct/Add.jsp");
             } else {
                 int number = daoProduct.AddProduct(product);
                 // if add successful
@@ -135,13 +134,13 @@ public class ManagerProductServlet extends HttpServlet {
             request.setAttribute("product", product);
             if (NewProductName.isEmpty()) {
                 request.setAttribute("message", "You have to input product name");
-                Dispatcher.forward(request, response, "/View/ManagerProduct/Edit.jsp");
+                this.forward(request, response, "/View/ManagerProduct/Edit.jsp");
             } else if (daoProduct.isExist(product.getProductName()) && !NewProductName.equalsIgnoreCase(oldName)) {
                 request.setAttribute("message", "Product name existed");
-                Dispatcher.forward(request, response, "/View/ManagerProduct/Edit.jsp");
+                this.forward(request, response, "/View/ManagerProduct/Edit.jsp");
             } else if (price <= 0) {
                 request.setAttribute("message", "Price must be greater than 0");
-                Dispatcher.forward(request, response, "/View/ManagerProduct/Edit.jsp");
+                this.forward(request, response, "/View/ManagerProduct/Edit.jsp");
             } else {
                 int number = daoProduct.UpdateProduct(product);
                 // if edit successful

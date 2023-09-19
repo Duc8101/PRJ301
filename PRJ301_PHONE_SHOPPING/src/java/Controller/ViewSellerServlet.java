@@ -5,11 +5,10 @@ import Entity.User;
 import Model.DAOUser;
 import java.io.IOException;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class ViewSellerServlet extends HttpServlet {
+public class ViewSellerServlet extends BaseServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -18,7 +17,7 @@ public class ViewSellerServlet extends HttpServlet {
         User seller = dao.getUser(ConstValue.USERNAME_SELLER);
         if (seller != null) {
             request.setAttribute(ConstValue.USERNAME_SELLER, seller);
-            Dispatcher.forward(request, response, "/View/ViewSeller/Index.jsp");
+            this.forward(request, response, "/View/ViewSeller/Index.jsp");
         }
     }
 

@@ -5,12 +5,11 @@ import Entity.User;
 import Model.DAOUser;
 import java.io.IOException;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class RegisterServlet extends HttpServlet {
+public class RegisterServlet extends BaseServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -18,7 +17,7 @@ public class RegisterServlet extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         if (user == null) {
-            Dispatcher.forward(request, response, "/View/Register/Index.jsp");
+            this.forward(request, response, "/View/Register/Index.jsp");
         } else if (user.getRoleName().equals(ConstValue.ROLE_CUSTOMER)) {
             response.sendRedirect("Home");
         } else {
@@ -67,7 +66,7 @@ public class RegisterServlet extends HttpServlet {
                 request.setAttribute("mess", "Register successful");
             }
         }
-        Dispatcher.forward(request, response, "/View/Register/Index.jsp");
+        this.forward(request, response, "/View/Register/Index.jsp");
     }
 
     @Override

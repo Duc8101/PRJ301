@@ -6,12 +6,11 @@ import Model.DAOUser;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class LoginServlet extends HttpServlet {
+public class LoginServlet extends BaseServlet {
 
     private final DAOUser daoUser = new DAOUser();
 
@@ -21,12 +20,12 @@ public class LoginServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String username = getUsername(request);
         if (username == null) {
-            Dispatcher.forward(request, response, "/View/Login/Index.jsp");
+            this.forward(request, response, "/View/Login/Index.jsp");
         } else {
             User user = daoUser.getUser(username);
             // if user not exist
             if (user == null) {
-                Dispatcher.forward(request, response, "/View/Login/Index.jsp");
+                this.forward(request, response, "/View/Login/Index.jsp");
             } else {
                 session.setAttribute("user", user);
                 if (user.getRoleName().equals(ConstValue.ROLE_CUSTOMER)) {
@@ -70,7 +69,7 @@ public class LoginServlet extends HttpServlet {
         User user = daoUser.getUser(username);
         if (user == null || !password.equals(user.getPassword())) {
             request.setAttribute("message", "Username or password incorrect");
-            Dispatcher.forward(request, response, "/View/Login/Index.jsp");
+            this.forward(request, response, "/View/Login/Index.jsp");
         } else {
             if (remember != null) {
                 Cookie cookie = new Cookie("username", username);

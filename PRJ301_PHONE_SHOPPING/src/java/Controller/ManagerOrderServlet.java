@@ -9,11 +9,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class ManagerOrderServlet extends HttpServlet {
+public class ManagerOrderServlet extends BaseServlet {
 
     private final DAOOrder daoOrder = new DAOOrder();
     private final DAOOrderDetail daoDetail = new DAOOrderDetail();
@@ -54,7 +53,7 @@ public class ManagerOrderServlet extends HttpServlet {
             request.setAttribute("next", nextURL);
             request.setAttribute("first", firstURL);
             request.setAttribute("last", lastURL);
-            Dispatcher.forward(request, response, "/View/ManagerOrder/Index.jsp");
+            this.forward(request, response, "/View/ManagerOrder/Index.jsp");
         }
 
         if (service.equals("ViewCustomer")) {
@@ -64,7 +63,7 @@ public class ManagerOrderServlet extends HttpServlet {
                 response.sendRedirect("ManagerOrder");
             } else {
                 request.setAttribute("user", user);
-                Dispatcher.forward(request, response, "/View/ManagerOrder/ViewCustomer.jsp");
+                this.forward(request, response, "/View/ManagerOrder/ViewCustomer.jsp");
             }
         }
 
@@ -78,7 +77,7 @@ public class ManagerOrderServlet extends HttpServlet {
             } else {
                 List<OrderDetail> list = this.daoDetail.getListOrderDetail(orderID);
                 request.setAttribute("list", list);
-                Dispatcher.forward(request, response, "/View/ManagerOrder/Detail.jsp");
+                this.forward(request, response, "/View/ManagerOrder/Detail.jsp");
             }
         }
 
@@ -90,7 +89,7 @@ public class ManagerOrderServlet extends HttpServlet {
                 response.sendRedirect("ManagerOrder");
             } else {
                 request.setAttribute("order", order);
-                Dispatcher.forward(request, response, "/View/ManagerOrder/Edit.jsp");
+                this.forward(request, response, "/View/ManagerOrder/Edit.jsp");
             }
         }
 
@@ -140,7 +139,7 @@ public class ManagerOrderServlet extends HttpServlet {
                 request.setAttribute("mess", "Edit successful");
             }
         }
-        Dispatcher.forward(request, response, "/View/ManagerOrder/Edit.jsp");
+        this.forward(request, response, "/View/ManagerOrder/Edit.jsp");
     }
 
     @Override
